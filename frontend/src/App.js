@@ -39,17 +39,25 @@ function App() {
         <Route exact path='/product-details/:id' element={<Protected><ProductDetailsPage/></Protected>}/>
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route
-          path="/terms-and-conditions"
-          element={<Navigate to="https://merchant.razorpay.com/policy/PmtxbotyVWKfwS/terms" replace />}
-        />
-        <Route
-          path="/cancellation-refund-policy"
-          element={<Navigate to="https://merchant.razorpay.com/policy/PmtxbotyVWKfwS/refund" replace />}
-        />
-        <Route
-          path="/shipping-policy"
-          element={<Navigate to="https://merchant.razorpay.com/policy/PmtxbotyVWKfwS/shipping" replace />}
-        />
+  path="/terms-and-conditions"
+  element={
+    <Navigate to="https://merchant.razorpay.com/policy/PmtxbotyVWKfwS/terms" replace />
+  }
+/>
+
+<Route
+  path="/shipping-policy"
+  element={
+    <Navigate to="https://merchant.razorpay.com/policy/PmtxbotyVWKfwS/shipping" replace />
+  }
+/>
+
+<Route
+  path="/cancellation-refund-policy"
+  element={
+    <Navigate to="https://merchant.razorpay.com/policy/PmtxbotyVWKfwS/refund" replace />
+  }
+/>
         {
           loggedInUser?.isAdmin?(
             // admin routes
