@@ -1,5 +1,5 @@
 import { FormHelperText, Paper, Stack, Typography, useMediaQuery, useTheme} from '@mui/material'
-import React, { useState } from 'react'
+import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom'
 import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
 import Favorite from '@mui/icons-material/Favorite';
@@ -34,11 +34,16 @@ export const ProductCard = ({id,title,price,thumbnail,brand,stockQuantity,handle
 
     const isProductAlreadyInCart=cartItems.some((item)=>item.product._id===id)
 
-    const handleAddToCart=async(e)=>{
-        e.stopPropagation()
-        const data={user:loggedInUser?._id,product:id}
-        dispatch(addToCartAsync(data))
+const handleAddToCart = async (e) => {
+    e.stopPropagation();
+    if (!loggedInUser) {
+        toast.error("Please login to access");
+        return;
     }
+    const data = { user: loggedInUser._id, product: id };
+    dispatch(addToCartAsync(data));
+};
+
 
 
   return (
