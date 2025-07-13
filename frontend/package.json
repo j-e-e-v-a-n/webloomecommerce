@@ -14,6 +14,8 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.6.2",
     "crypto": "^1.0.1",
+    "firebase": "^11.10.0",
+    "firebase-admin": "^13.4.0",
     "framer-motion": "^10.18.0",
     "lottie-react": "^2.4.0",
     "razorpay": "^2.9.5",

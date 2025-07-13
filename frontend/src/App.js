@@ -11,6 +11,10 @@ import { useFetchLoggedInUserDetails } from "./hooks/useAuth/useFetchLoggedInUse
 import { AddProductPage, AdminOrdersPage, CartPage, CheckoutPage, ForgotPasswordPage, HomePage, LoginPage, OrderSuccessPage, OtpVerificationPage, ProductDetailsPage, ProductUpdatePage, ResetPasswordPage, SignupPage, UserOrdersPage, UserProfilePage, WishlistPage } from './pages';
 import { AdminDashboardPage } from './pages/AdminDashboardPage';
 import { NotFoundPage } from './pages/NotFoundPage';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import TermsAndConditions from './pages/TermsAndConditions';
+import CancellationRefundPolicy from './pages/CancellationRefundPolicy';
+import ShippingPolicy from './pages/ShippingPolicy';
 
 
 function App() {
@@ -33,6 +37,10 @@ function App() {
         <Route path='/reset-password/:userId/:passwordResetToken' element={<ResetPasswordPage/>}/>
         <Route exact path='/logout' element={<Protected><Logout/></Protected>}/>
         <Route exact path='/product-details/:id' element={<Protected><ProductDetailsPage/></Protected>}/>
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
+        <Route path="/cancellation-refund-policy" element={<CancellationRefundPolicy />} />
+        <Route path="/shipping-policy" element={<ShippingPolicy />} />
 
         {
           loggedInUser?.isAdmin?(

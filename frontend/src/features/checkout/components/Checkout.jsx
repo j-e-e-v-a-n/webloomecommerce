@@ -28,13 +28,13 @@ export const Checkout = () => {
     const orderStatus = useSelector(selectOrderStatus)
     const razorpayOrderStatus = useSelector(selectRazorpayOrderStatus)
     const currentOrder = useSelector(selectCurrentOrder)
-    
+
     // Enhanced pricing calculations with detailed breakdown
     const orderTotal = cartItems.reduce((acc, item) => (item.product.price * item.quantity) + acc, 0)
     const shippingAmount = SHIPPING || 0
     const taxAmount = TAXES || 0
     const finalTotal = orderTotal + shippingAmount + taxAmount
-    
+
     // Helper function to convert amount to paise (smallest currency unit) with rounding
     const convertToPaise = (amount) => {
         const rounded = Math.round(parseFloat(amount) * 100)
@@ -115,7 +115,7 @@ export const Checkout = () => {
 
         const options = {
             // FIXED: Use your actual key ID instead of environment variable
-            key: 'rzp_test_IvGWMBpENteAE2', // Your actual Razorpay key ID
+            key: 'rzp_test_KAUQyodS5cqwyK', // Your actual Razorpay key ID
             amount: razorpayOrder.amount,
             currency: razorpayOrder.currency,
             name: 'Your Store Name',
@@ -225,7 +225,7 @@ export const Checkout = () => {
         } else if (selectedPaymentMethod === 'CARD') {
             // Create Razorpay order with amount in paise (integer)
             const amountInPaise = convertToPaise(finalTotal)
-            
+
             const razorpayOrderData = {
                 amount: amountInPaise, // Convert to paise and ensure it's an integer
                 currency: 'INR',
@@ -248,7 +248,7 @@ export const Checkout = () => {
                 console.log('Final Total:', formatCurrency(finalTotal));
                 console.log('Amount in Paise:', amountInPaise);
                 console.log('Creating Razorpay order with data:', razorpayOrderData);
-                
+
                 const response = await dispatch(createRazorpayOrderAsync(razorpayOrderData))
 
                 console.log('Razorpay order response:', response);
@@ -266,39 +266,39 @@ export const Checkout = () => {
     }
 
     // Price breakdown component
-// Price breakdown component - Clean and formal
-const PriceBreakdown = () => (
-    <Stack spacing={2} sx={{ p: 2, border: '1px solid #e0e0e0', borderRadius: 1, mb: 2 }}>
-        <Typography variant="h6">Order Summary</Typography>
-        
-        <Stack direction="row" justifyContent="space-between">
-            <Typography>Subtotal:</Typography>
-            <Typography>{formatCurrency(orderTotal)}</Typography>
+    // Price breakdown component - Clean and formal
+    const PriceBreakdown = () => (
+        <Stack spacing={2} sx={{ p: 2, border: '1px solid #e0e0e0', borderRadius: 1, mb: 2 }}>
+            <Typography variant="h6">Order Summary</Typography>
+
+            <Stack direction="row" justifyContent="space-between">
+                <Typography>Subtotal:</Typography>
+                <Typography>{formatCurrency(orderTotal)}</Typography>
+            </Stack>
+
+            <Stack direction="row" justifyContent="space-between">
+                <Typography>Shipping:</Typography>
+                <Typography>{formatCurrency(shippingAmount)}</Typography>
+            </Stack>
+
+            <Stack direction="row" justifyContent="space-between">
+                <Typography>Tax:</Typography>
+                <Typography>{formatCurrency(taxAmount)}</Typography>
+            </Stack>
+
+            <Divider />
+
+            <Stack direction="row" justifyContent="space-between">
+                <Typography variant="h6">Total:</Typography>
+                <Typography variant="h6">{formatCurrency(finalTotal)}</Typography>
+            </Stack>
+
+            <Stack direction="row" justifyContent="space-between">
+                <Typography variant="body2" color="text.secondary">Amount Payable:</Typography>
+                <Typography variant="body2" color="text.secondary">₹{formatInteger(finalTotal)}</Typography>
+            </Stack>
         </Stack>
-        
-        <Stack direction="row" justifyContent="space-between">
-            <Typography>Shipping:</Typography>
-            <Typography>{formatCurrency(shippingAmount)}</Typography>
-        </Stack>
-        
-        <Stack direction="row" justifyContent="space-between">
-            <Typography>Tax:</Typography>
-            <Typography>{formatCurrency(taxAmount)}</Typography>
-        </Stack>
-        
-        <Divider />
-        
-        <Stack direction="row" justifyContent="space-between">
-            <Typography variant="h6">Total:</Typography>
-            <Typography variant="h6">{formatCurrency(finalTotal)}</Typography>
-        </Stack>
-        
-        <Stack direction="row" justifyContent="space-between">
-            <Typography variant="body2" color="text.secondary">Amount Payable:</Typography>
-            <Typography variant="body2" color="text.secondary">₹{formatInteger(finalTotal)}</Typography>
-        </Stack>
-    </Stack>
-)
+    )
 
     return (
         <Stack flexDirection={'row'} p={2} rowGap={10} justifyContent={'center'} flexWrap={'wrap'} mb={'5rem'} mt={2} columnGap={4} alignItems={'flex-start'}>
@@ -420,10 +420,10 @@ const PriceBreakdown = () => (
             <Stack width={is900 ? '100%' : 'auto'} alignItems={is900 ? 'flex-start' : ''}>
                 <Typography variant='h4'>Order summary</Typography>
                 <Cart checkout={true} />
-                
+
                 {/* Price Breakdown */}
                 <PriceBreakdown />
-                
+
                 <LoadingButton
                     fullWidth
                     loading={orderStatus === 'pending' || razorpayOrderStatus === 'pending'}
