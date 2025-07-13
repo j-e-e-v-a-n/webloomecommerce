@@ -71,7 +71,7 @@ function App() {
           ):(
             // user routes
             <>
-            <Route path='/' element={<Protected><HomePage/></Protected>}/>
+            <Route path='/' element={<HomePage/>}/>
             <Route path='/cart' element={<Protected><CartPage/></Protected>}/>
             <Route path='/profile' element={<Protected><UserProfilePage/></Protected>}/>
             <Route path='/checkout' element={<Protected><CheckoutPage/></Protected>}/>
