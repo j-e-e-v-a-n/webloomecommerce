@@ -119,7 +119,7 @@ export const processRazorpayPayment = async (orderData, customerInfo = {}) => {
         // Step 2: Return a promise that resolves when payment is complete
         return new Promise((resolve, reject) => {
             const options = {
-                key: process.env.REACT_APP_RAZORPAY_KEY_ID || 'rzp_test_KAUQyodS5cqwyK',
+                key: process.env.REACT_APP_RAZORPAY_KEY_ID || 'rzp_test_IvGWMBpENteAE2',
                 amount: order.amount,
                 currency: order.currency,
                 name: process.env.REACT_APP_STORE_NAME || 'Your Store',

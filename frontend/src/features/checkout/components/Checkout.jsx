@@ -115,7 +115,7 @@ export const Checkout = () => {
 
         const options = {
             // FIXED: Use your actual key ID instead of environment variable
-            key: 'rzp_test_KAUQyodS5cqwyK', // Your actual Razorpay key ID
+            key: 'rzp_test_IvGWMBpENteAE2', // Your actual Razorpay key ID
             amount: razorpayOrder.amount,
             currency: razorpayOrder.currency,
             name: 'Your Store Name',
