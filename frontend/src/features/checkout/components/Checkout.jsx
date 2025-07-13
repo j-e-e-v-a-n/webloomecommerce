@@ -34,6 +34,11 @@ export const Checkout = () => {
     const is900 = useMediaQuery(theme.breakpoints.down(900))
     const is480 = useMediaQuery(theme.breakpoints.down(480))
 
+    // Helper function to convert amount to paise (smallest currency unit)
+    const convertToPaise = (amount) => {
+        return Math.round(parseFloat(amount) * 100)
+    }
+
     useEffect(() => {
         if (addressStatus === 'fulfilled') {
             reset()
@@ -201,19 +206,25 @@ export const Checkout = () => {
             }
             dispatch(createOrderAsync(order))
         } else if (selectedPaymentMethod === 'CARD') {
-            // Create Razorpay order
+            // Create Razorpay order with amount in paise (integer)
+            const amountInPaise = convertToPaise(finalTotal)
+            
             const razorpayOrderData = {
-                amount: finalTotal * 100, // Convert to paisa
+                amount: amountInPaise, // Convert to paise and ensure it's an integer
                 currency: 'INR',
                 receipt: `order_${Date.now()}`,
                 notes: {
                     user_id: loggedInUser._id,
-                    address: selectedAddress?.street
+                    address: selectedAddress?.street,
+                    final_total: finalTotal.toString() // Store original amount for reference
                 }
             }
 
             try {
                 console.log('Creating Razorpay order with data:', razorpayOrderData);
+                console.log('Amount in paise:', amountInPaise);
+                console.log('Original amount:', finalTotal);
+                
                 const response = await dispatch(createRazorpayOrderAsync(razorpayOrderData))
 
                 console.log('Razorpay order response:', response);

@@ -75,14 +75,35 @@ exports.createRazorpayOrder = async (req, res) => {
 
         const { amount, currency, receipt, notes } = req.body
 
+        // Validate and ensure amount is an integer
+        let amountInPaise;
+        if (typeof amount === 'string') {
+            amountInPaise = parseInt(amount, 10);
+        } else if (typeof amount === 'number') {
+            amountInPaise = Math.round(amount);
+        } else {
+            return res.status(400).json({
+                message: 'Invalid amount format. Amount must be a number or string representing paise.'
+            });
+        }
+
+        // Validate that amount is positive
+        if (amountInPaise <= 0 || isNaN(amountInPaise)) {
+            return res.status(400).json({
+                message: 'Amount must be a positive integer in paise (smallest currency unit).'
+            });
+        }
+
         const options = {
-            amount: amount, // amount in smallest currency unit (paise for INR)
+            amount: amountInPaise, // amount in smallest currency unit (paise for INR) - MUST BE INTEGER
             currency: currency || 'INR',
             receipt: receipt || `order_${Date.now()}`,
             notes: notes || {}
         }
 
         console.log('Creating order with options:', options);
+        console.log('Amount type:', typeof options.amount);
+        console.log('Amount value:', options.amount);
 
         const order = await razorpay.orders.create(options)
         
