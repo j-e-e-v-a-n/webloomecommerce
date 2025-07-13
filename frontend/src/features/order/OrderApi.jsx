@@ -1,12 +1,12 @@
 // OrderApi.js - Frontend API functions
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:8000'
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'https://webloomecommerce.vercel.app'
 
 // Helper function for consistent error handling
 const handleApiResponse = async (response) => {
     if (!response.ok) {
         let errorMessage = 'Request failed'
-        
+
         try {
             const errorData = await response.json()
             errorMessage = errorData.message || errorMessage
@@ -14,10 +14,10 @@ const handleApiResponse = async (response) => {
             // If response is not JSON, use status text
             errorMessage = response.statusText || errorMessage
         }
-        
+
         throw new Error(errorMessage)
     }
-    
+
     return response.json()
 }
 
@@ -28,7 +28,7 @@ const makeApiCall = async (url, options = {}) => {
             credentials: 'include',
             ...options
         })
-        
+
         return await handleApiResponse(response)
     } catch (error) {
         console.error(`API call failed: ${url}`, error)
@@ -51,7 +51,7 @@ export const getAllOrders = async (page = 1, limit = 10) => {
         page: page.toString(),
         limit: limit.toString()
     })
-    
+
     return makeApiCall(`${API_BASE_URL}/orders?${queryParams}`)
 }
 
@@ -59,7 +59,7 @@ export const getOrderByUserId = async (userId) => {
     if (!userId) {
         throw new Error('User ID is required')
     }
-    
+
     return makeApiCall(`${API_BASE_URL}/orders/user/${userId}`)
 }
 
@@ -67,7 +67,7 @@ export const updateOrderById = async (update) => {
     if (!update.id) {
         throw new Error('Order ID is required for update')
     }
-    
+
     return makeApiCall(`${API_BASE_URL}/orders/${update.id}`, {
         method: 'PATCH',
         headers: {
@@ -82,7 +82,7 @@ export const createRazorpayOrder = async (orderData) => {
     if (!orderData.amount || orderData.amount <= 0) {
         throw new Error('Valid amount is required')
     }
-    
+
     return makeApiCall(`${API_BASE_URL}/orders/razorpay/create`, {
         method: 'POST',
         headers: {
@@ -96,11 +96,11 @@ export const verifyRazorpayPayment = async (paymentData) => {
     // Validate required fields
     const requiredFields = ['razorpay_order_id', 'razorpay_payment_id', 'razorpay_signature']
     const missingFields = requiredFields.filter(field => !paymentData[field])
-    
+
     if (missingFields.length > 0) {
         throw new Error(`Missing required fields: ${missingFields.join(', ')}`)
     }
-    
+
     return makeApiCall(`${API_BASE_URL}/orders/razorpay/verify`, {
         method: 'POST',
         headers: {
@@ -115,7 +115,7 @@ export const processRazorpayPayment = async (orderData, customerInfo = {}) => {
     try {
         // Step 1: Create Razorpay order
         const order = await createRazorpayOrder(orderData)
-        
+
         // Step 2: Return a promise that resolves when payment is complete
         return new Promise((resolve, reject) => {
             const options = {
@@ -133,9 +133,9 @@ export const processRazorpayPayment = async (orderData, customerInfo = {}) => {
                             razorpay_payment_id: response.razorpay_payment_id,
                             razorpay_signature: response.razorpay_signature
                         }
-                        
+
                         const verification = await verifyRazorpayPayment(verificationData)
-                        
+
                         if (verification.verified) {
                             resolve({
                                 success: true,
@@ -159,7 +159,7 @@ export const processRazorpayPayment = async (orderData, customerInfo = {}) => {
                     color: process.env.REACT_APP_THEME_COLOR || '#3399cc'
                 },
                 modal: {
-                    ondismiss: function() {
+                    ondismiss: function () {
                         reject(new Error('Payment cancelled by user'))
                     }
                 }

@@ -48,7 +48,7 @@ Use these test card details provided by Razorpay:
 
 ### Create Razorpay Order
 ```bash
-curl -X POST http://localhost:8000/orders/razorpay/create \
+curl -X POST https://webloomecommerce.vercel.app/orders/razorpay/create \
   -H "Content-Type: application/json" \
   -d '{
     "amount": 50000,
@@ -62,7 +62,7 @@ curl -X POST http://localhost:8000/orders/razorpay/create \
 
 ### Verify Payment
 ```bash
-curl -X POST http://localhost:8000/orders/razorpay/verify \
+curl -X POST https://webloomecommerce.vercel.app/orders/razorpay/verify \
   -H "Content-Type: application/json" \
   -d '{
     "razorpay_order_id": "order_test_id",
@@ -73,7 +73,7 @@ curl -X POST http://localhost:8000/orders/razorpay/verify \
 
 ### Create Order with Payment Info
 ```bash
-curl -X POST http://localhost:8000/orders \
+curl -X POST https://webloomecommerce.vercel.app/orders \
   -H "Content-Type: application/json" \
   -d '{
     "user": "user_id",

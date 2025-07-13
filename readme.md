@@ -140,7 +140,7 @@ REACT_APP_BASE_URL="https://webloomecommerce.vercel.app"
     - To test password reset and OTP verification, create a personal account with a valid email address.
 ### Accessing the Application
 Once both servers are running, you can access them at the following URL's:
-- Backend: http://localhost:8000
+- Backend: https://webloomecommerce.vercel.app
 - Frontend: http://localhost:3000
 
 ## **Bonus**
