@@ -89,7 +89,7 @@ PRODUCTION="false" # Initially set to false for development
 - Add the following variable:
 ```bash
 # Backend URL (adjust if needed)
-REACT_APP_BASE_URL="http://localhost:8000" 
+REACT_APP_BASE_URL="https://webloomecommerce.vercel.app" 
 ```
 
 **Important**
